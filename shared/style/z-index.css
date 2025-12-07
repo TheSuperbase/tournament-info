@@ -1,0 +1,11 @@
+@layer utilities {
+  .z-toast {
+    z-index: 1000;
+  }
+  .z-bottom-sheet {
+    z-index: 750;
+  }
+  .z-header {
+    z-index: 500;
+  }
+}

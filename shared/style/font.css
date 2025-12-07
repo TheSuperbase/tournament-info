@@ -1,0 +1,286 @@
+@font-face {
+  font-family: 'SUIT';
+  src: url('/font/SUIT-Thin.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SUIT';
+  src: url('/font/SUIT-ExtraLight.woff2') format('woff2');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SUIT';
+  src: url('/font/SUIT-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SUIT';
+  src: url('/font/SUIT-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SUIT';
+  src: url('/font/SUIT-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SUIT';
+  src: url('/font/SUIT-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SUIT';
+  src: url('/font/SUIT-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SUIT';
+  src: url('/font/SUIT-ExtraBold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SUIT';
+  src: url('/font/SUIT-Heavy.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  /* Font Family */
+  --font-suit: SUIT, system-ui, sans-serif;
+
+  /* Font Size */
+  --text-px32: 2rem;
+  --text-px28: 1.75rem;
+  --text-px24: 1.5rem;
+  --text-px22: 1.375rem;
+  --text-px20: 1.25rem;
+  --text-px18: 1.125rem;
+  --text-px16: 1rem;
+  --text-px14: 0.875rem;
+  --text-px12: 0.75rem;
+
+  /* Font Weight */
+  --font-weight-bold: 700;
+  --font-weight-semibold: 600;
+  --font-weight-medium: 500;
+  --font-weight-regular: 400;
+
+  /* Line Height */
+  --leading-px40: 2.5rem;
+  --leading-px36: 2.25rem;
+  --leading-px30: 1.875rem;
+  --leading-px28: 1.75rem;
+  --leading-px24: 1.5rem;
+  --leading-px20: 1.25rem;
+  --leading-px16: 1rem;
+}
+
+@layer utilities {
+  .typography-headline-1 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--text-px32);
+    line-height: var(--leading-px36);
+  }
+
+  .typography-headline-2 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--text-px28);
+    line-height: var(--leading-px30);
+  }
+
+  .typography-headline-3 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--text-px24);
+    line-height: var(--leading-px28);
+  }
+
+  .typography-headline-4 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--text-px22);
+    line-height: var(--leading-px30);
+  }
+
+  .typography-headline-5 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--text-px18);
+    line-height: var(--leading-px24);
+  }
+
+  .typography-headline-6 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--text-px14);
+    line-height: var(--leading-px24);
+  }
+
+  .typography-subhead-1 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--text-px14);
+    line-height: var(--leading-px20);
+  }
+
+  .typography-subhead-2 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-px14);
+    line-height: var(--leading-px20);
+  }
+
+  .typography-subhead-3 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-regular);
+    font-size: var(--text-px14);
+    line-height: var(--leading-px20);
+  }
+
+  .typography-body-1 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--text-px16);
+    line-height: var(--leading-px24);
+  }
+
+  .typography-body-2 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-px16);
+    line-height: var(--leading-px24);
+  }
+
+  .typography-body-3 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-regular);
+    font-size: var(--text-px16);
+    line-height: var(--leading-px24);
+  }
+
+  .typography-body-4 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-regular);
+    font-size: var(--text-px14);
+    line-height: var(--leading-px24);
+  }
+
+  .typography-caption-1 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-px14);
+    line-height: var(--leading-px16);
+  }
+
+  .typography-caption-2 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-px12);
+    line-height: var(--leading-px16);
+  }
+
+  .typography-caption-3 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-px12);
+    line-height: var(--leading-px16);
+  }
+
+  .typography-w-headline-1 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--text-px32);
+    line-height: var(--leading-px40);
+  }
+
+  .typography-w-headline-2 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--text-px28);
+    line-height: var(--leading-px24);
+  }
+
+  .typography-w-headline-3 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--text-px20);
+    line-height: var(--leading-px24);
+  }
+
+  .typography-w-headline-4 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--text-px18);
+    line-height: var(--leading-px24);
+  }
+
+  .typography-w-headline-5 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--text-px14);
+    line-height: var(--leading-px24);
+  }
+
+  .typography-w-subhead-1 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-px14);
+    line-height: var(--leading-px20);
+  }
+
+  .typography-w-body-1 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-px20);
+    line-height: var(--leading-px30);
+  }
+
+  .typography-w-body-2 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-px18);
+    line-height: var(--leading-px24);
+  }
+
+  .typography-w-body-3 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--text-px16);
+    line-height: var(--leading-px24);
+  }
+
+  .typography-w-body-4 {
+    font-family: var(--font-suit);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--text-px16);
+    line-height: var(--leading-px24);
+  }
+}

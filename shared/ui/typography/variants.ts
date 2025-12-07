@@ -1,0 +1,18 @@
+export const TYPOGRAPHY_VARIANT = {
+  HEADLINE_1: "headline1",
+  HEADLINE_2: "headline2",
+  HEADLINE_3: "headline3",
+  HEADLINE_4: "headline4",
+  HEADLINE_5: "headline5",
+  HEADLINE_6: "headline6",
+  SUB_HEAD_1: "subHead1",
+  SUB_HEAD_2: "subHead2",
+  SUB_HEAD_3: "subHead3",
+  BODY_1: "body1",
+  BODY_2: "body2",
+  BODY_3: "body3",
+  BODY_4: "body4",
+  CAPTION_1: "caption1",
+  CAPTION_2: "caption2",
+  CAPTION_3: "caption3",
+} as const;

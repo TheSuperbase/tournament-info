@@ -1,0 +1,210 @@
+@theme {
+  /* Primary Colors */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-error: #ff6b5e;
+
+  --color-neutral-50: #f7f7fa;
+  --color-neutral-100: #f9f9fb;
+  --color-neutral-150: #f6f6f9;
+  --color-neutral-200: #f3f3f7;
+  --color-neutral-250: #f0f0f5;
+  --color-neutral-300: #eeeef2;
+  --color-neutral-350: #e8e8ed;
+  --color-neutral-400: #e0e0e6;
+  --color-neutral-450: #d7d7df;
+  --color-neutral-500: #cdcdd6;
+  --color-neutral-550: #c1c1cd;
+  --color-neutral-600: #adadbd;
+  --color-neutral-650: #9797ab;
+  --color-neutral-700: #777792;
+  --color-neutral-750: #59596e;
+  --color-neutral-800: #3b3b49;
+  --color-neutral-850: #272730;
+  --color-neutral-900: #19191f;
+  --color-neutral-950: #101014;
+
+  --color-blue-50: #f5f5ff;
+  --color-blue-100: #ebecff;
+  --color-blue-200: #dee0ff;
+  --color-blue-300: #b0b5ff;
+  --color-blue-400: #a3a9ff;
+  --color-blue-500: #858dff;
+  --color-blue-600: #757eff;
+  --color-blue-700: #5762ff;
+  --color-blue-800: #4a56ff;
+  --color-blue-900: #2e3cff;
+
+  --color-skyblue-50: #f8fdff;
+  --color-skyblue-100: #f2fbff;
+  --color-skyblue-200: #d6f4ff;
+  --color-skyblue-300: #ccf1ff;
+  --color-skyblue-400: #c4efff;
+  --color-skyblue-500: #b0e9ff;
+  --color-skyblue-600: #92e1ff;
+  --color-skyblue-700: #80dcff;
+  --color-skyblue-800: #6cd7ff;
+  --color-skyblue-900: #5ad2ff;
+
+  --color-purple-50: #f9f6ff;
+  --color-purple-100: #f3edff;
+  --color-purple-200: #ebe2ff;
+  --color-purple-300: #d0baff;
+  --color-purple-400: #ba9aff;
+  --color-purple-500: #b694ff;
+  --color-purple-600: #ac87ff;
+  --color-purple-700: #9a6cff;
+  --color-purple-800: #8953ff;
+  --color-purple-900: #6620ff;
+
+  --color-orchid-50: #fcf9ff;
+  --color-orchid-100: #faf3fe;
+  --color-orchid-200: #f6ecfe;
+  --color-orchid-300: #efdafd;
+  --color-orchid-400: #e7c9fc;
+  --color-orchid-500: #dfb7fb;
+  --color-orchid-600: #dbaefa;
+  --color-orchid-700: #d39cf9;
+  --color-orchid-800: #c984f8;
+  --color-orchid-900: #bd69f6;
+
+  --color-mint-50: #dbfffc;
+  --color-mint-100: #bafffa;
+  --color-mint-200: #94fff8;
+  --color-mint-300: #56fcf3;
+  --color-mint-400: #4df5ed;
+  --color-mint-500: #39e8e0;
+  --color-mint-600: #2de1d9;
+  --color-mint-700: #01d4cc;
+  --color-mint-800: #00c6be;
+  --color-mint-900: #00b8b1;
+
+  --color-green-50: #e7fef8;
+  --color-green-100: #cbfff3;
+  --color-green-200: #afffec;
+  --color-green-300: #86ffe3;
+  --color-green-400: #5affd9;
+  --color-green-500: #3fffd2;
+  --color-green-600: #0dffc7;
+  --color-green-700: #00f5bc;
+  --color-green-800: #00e3ae;
+  --color-green-900: #00d9a6;
+
+  --color-yellow-50: #fffbeb;
+  --color-yellow-100: #fff9de;
+  --color-yellow-200: #fff2b5;
+  --color-yellow-300: #ffefa3;
+  --color-yellow-400: #ffe985;
+  --color-yellow-500: #ffe775;
+  --color-yellow-600: #ffe157;
+  --color-yellow-700: #ffdc3b;
+  --color-yellow-800: #ffd71c;
+  --color-yellow-900: #ffd200;
+
+  --color-red-50: #ffe1df;
+  --color-red-100: #ffd3cf;
+  --color-red-200: #ffc4be;
+  --color-red-300: #ffb5ae;
+  --color-red-400: #ffa69e;
+  --color-red-500: #ff978e;
+  --color-red-600: #ff897e;
+  --color-red-700: #ff6b5e;
+  --color-red-800: #f55041;
+  --color-red-900: #e43b2c;
+
+  --color-pink-50: #fff8fa;
+  --color-pink-100: #fff1f6;
+  --color-pink-200: #ffe8f0;
+  --color-pink-300: #ffd4e2;
+  --color-pink-400: #ffb6ce;
+  --color-pink-500: #ffa1c0;
+  --color-pink-600: #ff8cb2;
+  --color-pink-700: #ff79a6;
+  --color-pink-800: #ff6498;
+  --color-pink-900: #ff518b;
+
+  --color-orange-50: #fff6ee;
+  --color-orange-100: #fff0e4;
+  --color-orange-200: #ffdabe;
+  --color-orange-300: #ffd5b4;
+  --color-orange-400: #ffc69b;
+  --color-orange-500: #ffbf8e;
+  --color-orange-600: #ffb175;
+  --color-orange-700: #ffa45e;
+  --color-orange-800: #ff9645;
+  --color-orange-900: #ff892e;
+
+  --color-lightgreen-50: #f9fef6;
+  --color-lightgreen-100: #ecfbe3;
+  --color-lightgreen-200: #dbf7c9;
+  --color-lightgreen-300: #caf3b1;
+  --color-lightgreen-400: #b9ef96;
+  --color-lightgreen-500: #b0ed89;
+  --color-lightgreen-600: #9fe96f;
+  --color-lightgreen-700: #8fe657;
+  --color-lightgreen-800: #7de23d;
+  --color-lightgreen-900: #6dde25;
+
+  --color-darkgreen-50: #effaf2;
+  --color-darkgreen-100: #cef1d6;
+  --color-darkgreen-200: #b8eac3;
+  --color-darkgreen-300: #ace7b9;
+  --color-darkgreen-400: #88dc9b;
+  --color-darkgreen-500: #67d27f;
+  --color-darkgreen-600: #5dcf77;
+  --color-darkgreen-700: #55c270;
+  --color-darkgreen-800: #3ab859;
+  --color-darkgreen-900: #30b450;
+
+  /* Semantic Colors */
+  --color-semantic-text-primary: var(--color-neutral-950);
+  --color-semantic-text-secondary: var(--color-neutral-700);
+  --color-semantic-text-tertiary: var(--color-neutral-650);
+  --color-semantic-text-quaternary: var(--color-neutral-600);
+  --color-semantic-text-info-bold: var(--color-neutral-650);
+  --color-semantic-text-highlight: var(--color-mint-700);
+  --color-semantic-text-success: var(--color-mint-700);
+  --color-semantic-text-danger: var(--color-red-700);
+  --color-semantic-text-disabled: var(--color-neutral-550);
+  --color-semantic-text-bg-color: var(--color-white);
+
+  --color-semantic-bg-primary: var(--color-white);
+  --color-semantic-bg-secondary: var(--color-neutral-150);
+  --color-semantic-bg-tertiary: var(--color-neutral-100);
+  --color-semantic-bg-quaternary: var(--color-neutral-200);
+  --color-semantic-bg-danger: var(--color-red-50);
+
+  --color-semantic-border-primary: var(--color-neutral-350);
+  --color-semantic-border-secondary: var(--color-neutral-950);
+  --color-semantic-border-tertiary: var(--color-neutral-450);
+  --color-semantic-border-danger: var(--color-red-700);
+  --color-semantic-border-success: var(--color-mint-700);
+
+  --color-semantic-color-fill-primary: var(--color-neutral-100);
+  --color-semantic-color-fill-secondary: var(--color-neutral-150);
+  --color-semantic-color-fill-disabled: var(--color-neutral-300);
+  --color-semantic-color-fill-danger: var(--color-red-700);
+
+  --color-primary-gradient-element-1: #09ddad;
+  --color-primary-gradient-element-2: #02d5cc;
+}
+
+@layer utilities {
+  .bg-primary-gradient {
+    background: linear-gradient(
+      90deg,
+      var(--color-primary-gradient-element-1) 0%,
+      var(--color-primary-gradient-element-2) 100%
+    );
+  }
+  .text-primary-gradient {
+    background: linear-gradient(
+      90deg,
+      var(--color-primary-gradient-element-1) 0%,
+      var(--color-primary-gradient-element-2) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
