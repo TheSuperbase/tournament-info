@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Picker from "react-mobile-picker";
 import Icon from "@/shared/ui/icon";
@@ -14,6 +15,7 @@ import {
   DrawerTrigger,
 } from "@/shared/ui/drawer";
 import SolidButton from "@/shared/ui/button/SolidButton";
+import TextButton from "@/shared/ui/button/TextButton";
 
 const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 10 }, (_, i) => `${currentYear - 5 + i}년`);
@@ -40,6 +42,7 @@ function PickerItemContent({
 }
 
 function DateSelector() {
+  const router = useRouter();
   const now = new Date();
   const [selectedYear, setSelectedYear] = useState(`${now.getFullYear()}년`);
   const [selectedMonth, setSelectedMonth] = useState(`${now.getMonth() + 1}월`);
@@ -63,7 +66,7 @@ function DateSelector() {
   };
 
   return (
-    <div className="pt-[32px] pb-[20px] mx-[20px] w-full border-b border-[#EEE]">
+    <div className="pt-[32px] pb-[20px] mx-[20px] border-b border-[#EEE] flex flex-row items-center justify-between">
       <Drawer open={open} onOpenChange={handleOpenChange}>
         <DrawerTrigger asChild>
           <button className="flex flex-row items-center gap-[4px] cursor-pointer">
@@ -134,6 +137,12 @@ function DateSelector() {
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
+      <TextButton
+        className="text-semantic-text-info-bold"
+        onClick={() => router.push("/add")}
+      >
+        대회 추가
+      </TextButton>
     </div>
   );
 }

@@ -4,13 +4,17 @@ import { useRouter } from "next/navigation";
 import Icon from "@/shared/ui/icon";
 import Typography from "@/shared/ui/typography";
 
-function Header() {
+type Props = {
+  title: string;
+};
+
+function Header({ title }: Props) {
   const router = useRouter();
 
   return (
     <div className="px-[20px] py-[10px] h-[54px] flex items-center justify-center relative">
       <Typography variant="headline5" className="text-[#101014]">
-        대회상세
+        {title}
       </Typography>
       <Icon
         name="ArrowLeftOutlined"

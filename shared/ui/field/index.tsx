@@ -18,9 +18,14 @@ export const INPUT_SIZE = {
 } as const;
 
 const inputVariants = cva(
-  "bg-white flex flex-row w-[20.938rem] items-center rounded-[8px] py-[0.625rem] pl-[0.75rem] pr-[0.625rem] border-[1.5px] border-solid border-[#EFEFEF]",
+  "flex flex-row items-center rounded-[8px] py-[0.625rem] pl-[0.75rem] pr-[0.625rem]",
   {
     variants: {
+      variant: {
+        default:
+          "bg-semantic-color-fill-secondary border-[1.5px] border-solid border-transparent",
+        outline: "bg-white border-[1.5px] border-solid border-[#EFEFEF]",
+      },
       size: {
         [INPUT_SIZE.MEDIUM]:
           "h-[3.125rem] text-base font-medium leading-[1.375rem]",
@@ -37,12 +42,18 @@ const inputVariants = cva(
         true: "border-[1.5px] border-solid border-semantic-border-secondary",
         false: "",
       },
+      fullWidth: {
+        true: "w-full",
+        false: "w-[20.938rem]",
+      },
     },
     defaultVariants: {
+      variant: "default",
       size: INPUT_SIZE.MEDIUM,
       isActive: false,
       isFocused: false,
       isError: false,
+      fullWidth: false,
     },
   }
 );
@@ -53,7 +64,19 @@ type Props = Omit<VariantProps<typeof inputVariants>, "isFocused"> &
   };
 
 const Input = forwardRef<HTMLInputElement, Props>(function TextField(
-  { size, isActive, isError, className, value, onChange, label, id, ...props },
+  {
+    variant,
+    size,
+    isActive,
+    isError,
+    fullWidth,
+    className,
+    value,
+    onChange,
+    label,
+    id,
+    ...props
+  },
   ref
 ) {
   const [isFocused, setIsFocused] = useState(false);
@@ -76,7 +99,7 @@ const Input = forwardRef<HTMLInputElement, Props>(function TextField(
       )}
       <div
         className={cn(
-          inputVariants({ size, isActive, isError, isFocused }),
+          inputVariants({ variant, size, isActive, isError, isFocused, fullWidth }),
           className
         )}
       >

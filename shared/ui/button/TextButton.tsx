@@ -34,7 +34,10 @@ const buttonVariants = cva(
   }
 );
 
-type Props = VariantProps<typeof buttonVariants> & CustomButtonProps;
+type Props = VariantProps<typeof buttonVariants> &
+  CustomButtonProps & {
+    textClassName?: string;
+  };
 
 function TextButton({
   variant,
@@ -43,6 +46,7 @@ function TextButton({
   children,
   disabled = false,
   className,
+  textClassName,
   rightIcon,
   leftIcon,
   ...props
@@ -59,7 +63,11 @@ function TextButton({
       {...props}
     >
       {leftIcon}
-      <Typography variant={TextButtonSizeMapping[size]} color="inherit">
+      <Typography
+        variant={TextButtonSizeMapping[size]}
+        color="inherit"
+        className={textClassName}
+      >
         {children}
       </Typography>
       {rightIcon}
