@@ -14,9 +14,9 @@ function TournamentList() {
             variant="subHead1"
             className="text-[#555]"
           >{`6일 (토)`}</Typography>
-          <TournamentItem state="upcoming" />
-          <TournamentItem state="progress" />
-          <TournamentItem state="ended" />
+          <TournamentItem state="upcoming" tournamentId="1" />
+          <TournamentItem state="progress" tournamentId="2" />
+          <TournamentItem state="ended" tournamentId="3" />
         </div>
       ) : (
         /* 데이터가 없을 경우 */
