@@ -18,8 +18,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${suitFont.variable} antialiased`}>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${suitFont.variable} antialiased`}
+        suppressHydrationWarning
+      >
         {children}
         <div id="portal-root" />
       </body>

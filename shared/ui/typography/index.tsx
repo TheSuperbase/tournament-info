@@ -7,22 +7,22 @@ import { TYPOGRAPHY_VARIANT } from "./variants";
 export const typographyVariants = cva("", {
   variants: {
     variant: {
-      [TYPOGRAPHY_VARIANT.HEADLINE_1]: "headline1",
-      [TYPOGRAPHY_VARIANT.HEADLINE_2]: "headline2",
-      [TYPOGRAPHY_VARIANT.HEADLINE_3]: "headline3",
-      [TYPOGRAPHY_VARIANT.HEADLINE_4]: "headline4",
-      [TYPOGRAPHY_VARIANT.HEADLINE_5]: "headline5",
-      [TYPOGRAPHY_VARIANT.HEADLINE_6]: "headline6",
-      [TYPOGRAPHY_VARIANT.SUB_HEAD_1]: "subHead1",
-      [TYPOGRAPHY_VARIANT.SUB_HEAD_2]: "subHead2",
-      [TYPOGRAPHY_VARIANT.SUB_HEAD_3]: "subHead3",
-      [TYPOGRAPHY_VARIANT.BODY_1]: "body1",
-      [TYPOGRAPHY_VARIANT.BODY_2]: "body2",
-      [TYPOGRAPHY_VARIANT.BODY_3]: "body3",
-      [TYPOGRAPHY_VARIANT.BODY_4]: "body4",
-      [TYPOGRAPHY_VARIANT.CAPTION_1]: "caption1",
-      [TYPOGRAPHY_VARIANT.CAPTION_2]: "caption2",
-      [TYPOGRAPHY_VARIANT.CAPTION_3]: "caption3",
+      [TYPOGRAPHY_VARIANT.HEADLINE_1]: "typography-headline-1", // 32px / 36px
+      [TYPOGRAPHY_VARIANT.HEADLINE_2]: "typography-headline-2", // 28px / 30px
+      [TYPOGRAPHY_VARIANT.HEADLINE_3]: "typography-headline-3", // 24px / 28px
+      [TYPOGRAPHY_VARIANT.HEADLINE_4]: "typography-headline-4", // 22px / 30px
+      [TYPOGRAPHY_VARIANT.HEADLINE_5]: "typography-headline-5", // 18px / 24px
+      [TYPOGRAPHY_VARIANT.HEADLINE_6]: "typography-headline-6", // 14px / 24px
+      [TYPOGRAPHY_VARIANT.SUB_HEAD_1]: "typography-subhead-1", // 14px / 20px
+      [TYPOGRAPHY_VARIANT.SUB_HEAD_2]: "typography-subhead-2", // 14px / 20px
+      [TYPOGRAPHY_VARIANT.SUB_HEAD_3]: "typography-subhead-3", // 14px / 20px
+      [TYPOGRAPHY_VARIANT.BODY_1]: "typography-body-1", // 16px / 24px
+      [TYPOGRAPHY_VARIANT.BODY_2]: "typography-body-2", // 16px / 24px
+      [TYPOGRAPHY_VARIANT.BODY_3]: "typography-body-3", // 16px / 24px
+      [TYPOGRAPHY_VARIANT.BODY_4]: "typography-body-4", // 14px / 24px
+      [TYPOGRAPHY_VARIANT.CAPTION_1]: "typography-caption-1", // 14px / 16px
+      [TYPOGRAPHY_VARIANT.CAPTION_2]: "typography-caption-2", // 12px / 16px
+      [TYPOGRAPHY_VARIANT.CAPTION_3]: "typography-caption-3", // 12px / 16px
     },
   },
   defaultVariants: {
