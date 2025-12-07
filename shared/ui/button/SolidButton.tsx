@@ -33,7 +33,7 @@ const buttonVariants = cva(
         [BUTTON_SHAPE.CIRCLE]: "rounded-full",
       },
       disabled: {
-        true: "cursor-not-allowed opacity-40 bg-semantic-color-fill-disabled",
+        true: "cursor-not-allowed opacity-40",
         false: "cursor-pointer hover:opacity-100",
       },
       fullWidth: {

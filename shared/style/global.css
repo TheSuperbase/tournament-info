@@ -167,3 +167,8 @@
 .date-picker-wrapper > div > div:last-child {
   display: none !important;
 }
+
+/* Input placeholder 스타일 */
+input::placeholder {
+  color: #DBDBDB;
+}
