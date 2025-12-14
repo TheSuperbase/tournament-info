@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import Icon from "@/shared/ui/icon";
 import Typography from "@/shared/ui/typography";
+import TournamentSettingButton from "@/widget/edit/tournament-setting-button";
 
 type Props = {
   title: string;
@@ -18,11 +19,13 @@ function Header({ title }: Props) {
       </Typography>
       <Icon
         name="ArrowLeftOutlined"
-        width={28}
-        height={28}
-        className="absolute left-[20px]"
+        width={24}
+        height={24}
+        className="absolute left-[20px] text-[24px]"
         onClick={() => router.back()}
       />
+      {/* TournamentSettingButton */}
+      <TournamentSettingButton />
     </div>
   );
 }

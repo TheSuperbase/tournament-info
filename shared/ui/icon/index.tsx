@@ -1,16 +1,21 @@
 import IconsMap, { IconName } from "@/shared/assets/icons";
-import type { ComponentPropsWithoutRef } from "react";
+import type { ComponentPropsWithoutRef, ElementType } from "react";
 
 type Props = {
   name: IconName;
-  width: number;
-  height: number;
+  width?: number; // Make optional
+  height?: number; // Make optional
   className?: string;
   ariaLabel?: string;
-} & ComponentPropsWithoutRef<"svg">;
+} & ComponentPropsWithoutRef<"span">; // Change to span or generic to avoid specific SVG props conflation
 
 function Icon({ name, width, height, className, ariaLabel, ...props }: Props) {
-  const IconComponent = IconsMap[name];
+  const IconComponent = IconsMap[name] as ElementType;
+
+  // Ant Design Icons use style={{ fontSize }} for sizing usually, or className.
+  // SVGs use width/height.
+  // We can pass width/height to both, but standard HTML/SVG attributes might complain on Ant Icons if strict.
+  // However, Ant Icons often pass through unknown props to the underlying `span` or `svg`.
 
   return (
     <IconComponent
@@ -19,6 +24,10 @@ function Icon({ name, width, height, className, ariaLabel, ...props }: Props) {
       className={className}
       aria-label={ariaLabel}
       role="img"
+      style={{
+        fontSize: width ? `${width}px` : undefined,
+        ...props.style,
+      }}
       {...props}
     />
   );

@@ -1,25 +1,41 @@
+"use client";
+
+import { useTournamentsByMonth } from "@/shared/api/tournaments";
 import Typography from "@/shared/ui/typography";
 import TournamentItem from "@/widget/home/tournament-item";
 import Image from "next/image";
 
-function TournamentList() {
-  const hasData = true; // TODO: 실제 데이터 여부로 변경
+type Props = {
+  year: string;
+  month: string;
+};
+
+function TournamentList({ year, month }: Props) {
+  const { data: tournaments, isLoading } = useTournamentsByMonth(year, month);
+
+  const hasData = tournaments && tournaments.length > 0;
+
+  if (isLoading) {
+    return <div className="px-[20px] pt-[20px] pb-[80px]">Loading...</div>;
+  }
 
   return (
     <div className="px-[20px] pt-[20px] pb-[80px]">
       {hasData ? (
-        /* 데이터가 있을 경우 */
         <div className="flex flex-col gap-[20px]">
-          <Typography
-            variant="subHead1"
-            className="text-[#555]"
-          >{`6일 (토)`}</Typography>
-          <TournamentItem state="upcoming" tournamentId="1" />
-          <TournamentItem state="progress" tournamentId="2" />
-          <TournamentItem state="ended" tournamentId="3" />
+          {/* TODO: Group by date if needed. For now just flat list */}
+          {tournaments.map((tournament) => (
+            <div key={tournament.id} className="flex flex-col gap-[10px]">
+              {/* Date header placeholder - logic needed to group by start date */}
+              <Typography variant="subHead1" className="text-[#555]">
+                {tournament.tournamentPeriod.split("~")[0].trim()}
+              </Typography>
+
+              <TournamentItem key={tournament.id} tournament={tournament} />
+            </div>
+          ))}
         </div>
       ) : (
-        /* 데이터가 없을 경우 */
         <div className="flex flex-col items-center justify-center gap-[24px] pt-[100px]">
           <Image
             src="/image/empty-image.svg"

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { suitFont } from "./_font";
 import "@/shared/style/global.css";
+import { QueryProvider } from "@/shared/providers/QueryProvider";
 
 const metadata: Metadata = {
   title: "배드민턴 대회 캘린더",
@@ -23,8 +24,10 @@ export default function RootLayout({
         className={`${suitFont.variable} antialiased`}
         suppressHydrationWarning
       >
-        {children}
-        <div id="portal-root" />
+        <QueryProvider>
+          {children}
+          <div id="portal-root" />
+        </QueryProvider>
       </body>
     </html>
   );

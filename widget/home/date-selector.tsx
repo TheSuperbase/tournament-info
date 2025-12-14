@@ -21,6 +21,11 @@ const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 10 }, (_, i) => `${currentYear - 5 + i}년`);
 const months = Array.from({ length: 12 }, (_, i) => `${i + 1}월`);
 
+type Props = {
+  selectedDate: { year: string; month: string };
+  onDateChange: (date: { year: string; month: string }) => void;
+};
+
 function PickerItemContent({
   value,
   isSelected,
@@ -41,26 +46,28 @@ function PickerItemContent({
   );
 }
 
-function DateSelector() {
+function DateSelector({ selectedDate, onDateChange }: Props) {
   const router = useRouter();
-  const now = new Date();
-  const [selectedYear, setSelectedYear] = useState(`${now.getFullYear()}년`);
-  const [selectedMonth, setSelectedMonth] = useState(`${now.getMonth() + 1}월`);
   const [pickerValue, setPickerValue] = useState({
-    year: `${now.getFullYear()}년`,
-    month: `${now.getMonth() + 1}월`,
+    year: `${selectedDate.year}년`,
+    month: `${selectedDate.month}월`,
   });
   const [open, setOpen] = useState(false);
 
+  const displayYear = `${selectedDate.year}년`;
+  const displayMonth = `${selectedDate.month}월`;
+
   const handleConfirm = () => {
-    setSelectedYear(pickerValue.year);
-    setSelectedMonth(pickerValue.month);
+    onDateChange({
+      year: pickerValue.year.replace("년", ""),
+      month: pickerValue.month.replace("월", ""),
+    });
     setOpen(false);
   };
 
   const handleOpenChange = (isOpen: boolean) => {
     if (isOpen) {
-      setPickerValue({ year: selectedYear, month: selectedMonth });
+      setPickerValue({ year: displayYear, month: displayMonth });
     }
     setOpen(isOpen);
   };
@@ -71,7 +78,7 @@ function DateSelector() {
         <DrawerTrigger asChild>
           <button className="flex flex-row items-center gap-[4px] cursor-pointer">
             <Typography variant="body1" className="leading-none">
-              {`${selectedYear} ${selectedMonth}`}
+              {`${displayYear} ${displayMonth}`}
             </Typography>
             <Icon
               name="ChevronDown"

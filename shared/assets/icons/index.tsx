@@ -1,11 +1,12 @@
+import { ArrowLeftOutlined, MoreOutlined } from "@ant-design/icons";
 import ChevronDownIcon from "./chevron-down.svg";
-import ArrowLeftOutlinedIcon from "./arrow-left-outlined.svg";
 import TrophyIcon from "./trophy.svg";
 import HeartIcon from "./heart.svg";
 
 export const IconsMap = {
   ChevronDown: ChevronDownIcon,
-  ArrowLeftOutlined: ArrowLeftOutlinedIcon,
+  ArrowLeftOutlined: ArrowLeftOutlined,
+  MoreOutlined: MoreOutlined,
   Trophy: TrophyIcon,
   Heart: HeartIcon,
 };
