@@ -5,7 +5,7 @@ import Header from "@/shared/ui/header";
 function EditPage() {
   return (
     <div>
-      <Header title="대회 생성" />
+      <Header title="대회 수정" />
       <AlertProvider>
         <EditForm />
       </AlertProvider>

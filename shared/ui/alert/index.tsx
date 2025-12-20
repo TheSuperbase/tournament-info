@@ -12,6 +12,7 @@ export type AlertProps = {
   onSubmitButtonPress?: () => void;
   onCancelButtonPress?: () => void;
   isNegativeSubmit?: boolean;
+  autoHideOnSubmit?: boolean;
 };
 
 const Alert = ({

@@ -49,7 +49,7 @@ export const useAuthStore = create<AuthStore>()(
 
           set({
             user,
-            token: response.token || null,
+            token: response.accessToken,
             isAuthenticated: true,
           });
         } finally {

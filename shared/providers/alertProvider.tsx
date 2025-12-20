@@ -35,7 +35,9 @@ export const AlertProvider = ({ children }: { children: ReactNode }) => {
             }}
             onSubmitButtonPress={() => {
               alertProps.onSubmitButtonPress?.()
-              hideAlert()
+              if (alertProps.autoHideOnSubmit !== false) {
+                hideAlert()
+              }
             }}
             onCancelButtonPress={() => {
               alertProps.onCancelButtonPress?.()

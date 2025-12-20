@@ -79,7 +79,7 @@ export function useCreateTournament() {
         body: JSON.stringify(data),
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: tournamentKeys.lists() });
+      queryClient.invalidateQueries({ queryKey: tournamentKeys.all });
     },
   });
 }
@@ -95,14 +95,16 @@ export function useUpdateTournament(id: string) {
         body: JSON.stringify(data),
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: tournamentKeys.detail(id) });
-      queryClient.invalidateQueries({ queryKey: tournamentKeys.lists() });
+      queryClient.invalidateQueries({ queryKey: tournamentKeys.all });
     },
   });
 }
 
 // DELETE /tournaments/{id}
-export function useDeleteTournament() {
+export function useDeleteTournament(options?: {
+  onSuccess?: () => void;
+  onError?: (error: Error) => void;
+}) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -111,7 +113,11 @@ export function useDeleteTournament() {
         method: "DELETE",
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: tournamentKeys.lists() });
+      queryClient.invalidateQueries({ queryKey: tournamentKeys.all });
+      options?.onSuccess?.();
+    },
+    onError: (error: Error) => {
+      options?.onError?.(error);
     },
   });
 }

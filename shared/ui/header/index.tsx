@@ -4,6 +4,7 @@ import { useRouter, usePathname } from "next/navigation";
 import Icon from "@/shared/ui/icon";
 import Typography from "@/shared/ui/typography";
 import TournamentSettingButton from "@/widget/edit/tournament-setting-button";
+import { useAuthStore } from "@/shared/store/useAuthStore";
 
 type Props = {
   title: string;
@@ -12,6 +13,7 @@ type Props = {
 function Header({ title }: Props) {
   const router = useRouter();
   const pathname = usePathname();
+  const { isAuthenticated } = useAuthStore();
 
   const isDetailPage = /^\/\d+$/.test(pathname);
 
@@ -28,7 +30,7 @@ function Header({ title }: Props) {
         onClick={() => router.back()}
       />
       <div className="absolute right-[20px]">
-        {isDetailPage && <TournamentSettingButton />}
+        {isAuthenticated && isDetailPage && <TournamentSettingButton />}
       </div>
     </div>
   );

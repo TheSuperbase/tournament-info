@@ -2,21 +2,36 @@
 
 import { useState, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { parse, format } from "date-fns";
 import { useTournament, useUpdateTournament } from "@/shared/api/tournaments";
 import {
   validateTournamentForm,
   hasErrors,
   type TournamentFormData,
 } from "@/shared/lib/validation";
+import { useAlert } from "@/shared/hooks/useAlert";
 import { SolidButton } from "@/shared/ui/button";
 import Input from "@/shared/ui/field";
 import AddressSearch from "@/shared/ui/address-search";
 import Typography from "@/shared/ui/typography";
 
+function convertToInputDateFormat(dateStr: string): string {
+  // "2024.12.25" -> "2024-12-25"
+  if (!dateStr) return "";
+  try {
+    const parsed = parse(dateStr, "yyyy.M.d", new Date());
+    return format(parsed, "yyyy-MM-dd");
+  } catch {
+    return "";
+  }
+}
+
 function parsePeriodDates(period: string | undefined): [string, string] {
   if (!period) return ["", ""];
   const parts = period.split("~").map((p) => p.trim());
-  return [parts[0] || "", parts[1] || ""];
+  const startDate = convertToInputDateFormat(parts[0] || "");
+  const endDate = convertToInputDateFormat(parts[1] || "");
+  return [startDate, endDate];
 }
 
 function parseFormDataFromTournament(tournament: {
@@ -71,6 +86,7 @@ function EditForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get("id") || "";
+  const { showAlert } = useAlert();
 
   const { data: tournament, isLoading: isLoadingTournament } =
     useTournament(id);
@@ -143,7 +159,16 @@ function EditForm() {
       },
       {
         onSuccess: () => {
-          router.push(`/${id}`);
+          router.replace(`/${id}`);
+        },
+        onError: (error) => {
+          showAlert({
+            title: "안내메시지",
+            description:
+              error instanceof Error
+                ? error.message
+                : "대회 수정에 실패했습니다.",
+          });
         },
       }
     );
@@ -151,6 +176,9 @@ function EditForm() {
 
   const getError = (field: string) =>
     touched[field] ? errors[field] : undefined;
+
+  // 폼 유효성 검사
+  const isFormValid = !hasErrors(validateTournamentForm(formData));
 
   if (isLoadingTournament) {
     return <div className="px-[20px] py-[20px]">Loading...</div>;
@@ -181,7 +209,7 @@ function EditForm() {
             value={formData.tournamentStartDate}
             onChange={handleChange("tournamentStartDate")}
             onBlur={handleBlur("tournamentStartDate")}
-            error={getError("tournamentStartDate")}
+            isError={!!getError("tournamentStartDate")}
           />
           <Input
             fullWidth
@@ -190,9 +218,14 @@ function EditForm() {
             value={formData.tournamentEndDate}
             onChange={handleChange("tournamentEndDate")}
             onBlur={handleBlur("tournamentEndDate")}
-            error={getError("tournamentEndDate")}
+            isError={!!getError("tournamentEndDate")}
           />
         </div>
+        {(getError("tournamentStartDate") || getError("tournamentEndDate")) && (
+          <Typography variant="caption1" className="text-red-500">
+            {getError("tournamentStartDate") || getError("tournamentEndDate")}
+          </Typography>
+        )}
       </div>
       <div className="flex flex-col gap-[8px]">
         <Typography variant="subHead2">신청 일자</Typography>
@@ -204,7 +237,7 @@ function EditForm() {
             value={formData.applyStartDate}
             onChange={handleChange("applyStartDate")}
             onBlur={handleBlur("applyStartDate")}
-            error={getError("applyStartDate")}
+            isError={!!getError("applyStartDate")}
           />
           <Input
             fullWidth
@@ -213,9 +246,14 @@ function EditForm() {
             value={formData.applyEndDate}
             onChange={handleChange("applyEndDate")}
             onBlur={handleBlur("applyEndDate")}
-            error={getError("applyEndDate")}
+            isError={!!getError("applyEndDate")}
           />
         </div>
+        {(getError("applyStartDate") || getError("applyEndDate")) && (
+          <Typography variant="caption1" className="text-red-500">
+            {getError("applyStartDate") || getError("applyEndDate")}
+          </Typography>
+        )}
       </div>
       <AddressSearch
         label="지역"
@@ -271,7 +309,7 @@ function EditForm() {
         <SolidButton
           className="w-[315px]"
           onClick={handleSubmit}
-          disabled={isPending}
+          disabled={isPending || !isFormValid}
         >
           {isPending ? "수정 중..." : "수정하기"}
         </SolidButton>

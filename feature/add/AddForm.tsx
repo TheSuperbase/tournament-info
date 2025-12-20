@@ -8,6 +8,7 @@ import {
   hasErrors,
   type TournamentFormData,
 } from "@/shared/lib/validation";
+import { useAlert } from "@/shared/hooks/useAlert";
 import { SolidButton } from "@/shared/ui/button";
 import Input from "@/shared/ui/field";
 import AddressSearch from "@/shared/ui/address-search";
@@ -15,6 +16,7 @@ import Typography from "@/shared/ui/typography";
 
 function AddForm() {
   const router = useRouter();
+  const { showAlert } = useAlert();
   const { mutate: createTournament, isPending } = useCreateTournament();
 
   const [formData, setFormData] = useState<TournamentFormData>({
@@ -93,12 +95,24 @@ function AddForm() {
         onSuccess: () => {
           router.push("/");
         },
+        onError: (error) => {
+          showAlert({
+            title: "안내메시지",
+            description:
+              error instanceof Error
+                ? error.message
+                : "대회 등록에 실패했습니다.",
+          });
+        },
       }
     );
   };
 
   const getError = (field: string) =>
     touched[field] ? errors[field] : undefined;
+
+  // 폼 유효성 검사
+  const isFormValid = !hasErrors(validateTournamentForm(formData));
 
   return (
     <div className="px-[20px] pt-[36px] pb-[34px] flex flex-col gap-[24px]">
@@ -121,7 +135,7 @@ function AddForm() {
             value={formData.tournamentStartDate}
             onChange={handleChange("tournamentStartDate")}
             onBlur={handleBlur("tournamentStartDate")}
-            error={getError("tournamentStartDate")}
+            isError={!!getError("tournamentStartDate")}
           />
           <Input
             fullWidth
@@ -130,9 +144,14 @@ function AddForm() {
             value={formData.tournamentEndDate}
             onChange={handleChange("tournamentEndDate")}
             onBlur={handleBlur("tournamentEndDate")}
-            error={getError("tournamentEndDate")}
+            isError={!!getError("tournamentEndDate")}
           />
         </div>
+        {(getError("tournamentStartDate") || getError("tournamentEndDate")) && (
+          <Typography variant="caption1" className="text-red-500">
+            {getError("tournamentStartDate") || getError("tournamentEndDate")}
+          </Typography>
+        )}
       </div>
       <div className="flex flex-col gap-[8px]">
         <Typography variant="subHead2">신청 일자</Typography>
@@ -144,7 +163,7 @@ function AddForm() {
             value={formData.applyStartDate}
             onChange={handleChange("applyStartDate")}
             onBlur={handleBlur("applyStartDate")}
-            error={getError("applyStartDate")}
+            isError={!!getError("applyStartDate")}
           />
           <Input
             fullWidth
@@ -153,9 +172,14 @@ function AddForm() {
             value={formData.applyEndDate}
             onChange={handleChange("applyEndDate")}
             onBlur={handleBlur("applyEndDate")}
-            error={getError("applyEndDate")}
+            isError={!!getError("applyEndDate")}
           />
         </div>
+        {(getError("applyStartDate") || getError("applyEndDate")) && (
+          <Typography variant="caption1" className="text-red-500">
+            {getError("applyStartDate") || getError("applyEndDate")}
+          </Typography>
+        )}
       </div>
       <AddressSearch
         label="지역"
@@ -211,7 +235,7 @@ function AddForm() {
         <SolidButton
           className="w-[315px]"
           onClick={handleSubmit}
-          disabled={isPending}
+          disabled={isPending || !isFormValid}
         >
           {isPending ? "등록 중..." : "만들기"}
         </SolidButton>

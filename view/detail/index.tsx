@@ -1,4 +1,5 @@
 import Content from "@/feature/detail/Content";
+import { AlertProvider } from "@/shared/providers/alertProvider";
 import Header from "@/shared/ui/header";
 
 type Props = {
@@ -7,10 +8,12 @@ type Props = {
 
 function DetailPage({ id }: Props) {
   return (
-    <div>
-      <Header title="대회상세" />
-      <Content id={id} />
-    </div>
+    <AlertProvider>
+      <div>
+        <Header title="대회상세" />
+        <Content id={id} />
+      </div>
+    </AlertProvider>
   );
 }
 

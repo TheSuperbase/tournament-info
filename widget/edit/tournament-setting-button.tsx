@@ -5,14 +5,27 @@ import {
   DrawerTrigger,
 } from "@/shared/ui/drawer";
 import Icon from "@/shared/ui/icon";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import TournamentSettingMenu from "./tournament-setting-menu";
 
 function TournamentSettingButton() {
   const [open, setOpen] = useState(false);
-  const handleOpenChange = (isOpen: boolean) => {
+
+  const handleOpenChange = useCallback((isOpen: boolean) => {
+    // Drawer 닫힐 때 포커스 해제하여 aria-hidden 경고 방지
+    if (!isOpen && document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
     setOpen(isOpen);
-  };
+  }, []);
+
+  const handleClose = useCallback(() => {
+    // 포커스 해제하여 aria-hidden 경고 방지
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+    setOpen(false);
+  }, []);
 
   return (
     <Drawer open={open} onOpenChange={handleOpenChange}>
@@ -26,9 +39,11 @@ function TournamentSettingButton() {
           />
         </button>
       </DrawerTrigger>
-      <DrawerContent className="pt-[32px] px-[20px] pb-[48px]">
-        <DrawerTitle className="sr-only">대회 설정</DrawerTitle>
-        <TournamentSettingMenu />
+      <DrawerContent className="pt-[32px] px-[20px] pb-[48px] w-full">
+        <DrawerTitle className="pb-[10px] typography-headline-5">
+          대회 관리
+        </DrawerTitle>
+        <TournamentSettingMenu onClose={handleClose} />
       </DrawerContent>
     </Drawer>
   );
