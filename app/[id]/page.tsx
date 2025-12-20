@@ -1,5 +1,10 @@
 import DetailPage from "@/view/detail";
 
-export default function Detail() {
-  return <DetailPage />;
+type Props = {
+  params: Promise<{ id: string }>;
+};
+
+export default async function Detail({ params }: Props) {
+  const { id } = await params;
+  return <DetailPage id={id} />;
 }

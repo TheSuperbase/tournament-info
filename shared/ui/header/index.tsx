@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Icon from "@/shared/ui/icon";
 import Typography from "@/shared/ui/typography";
 import TournamentSettingButton from "@/widget/edit/tournament-setting-button";
@@ -11,6 +11,9 @@ type Props = {
 
 function Header({ title }: Props) {
   const router = useRouter();
+  const pathname = usePathname();
+
+  const isDetailPage = /^\/\d+$/.test(pathname);
 
   return (
     <div className="px-[20px] py-[10px] h-[54px] flex items-center justify-center relative">
@@ -19,13 +22,14 @@ function Header({ title }: Props) {
       </Typography>
       <Icon
         name="ArrowLeftOutlined"
-        width={24}
-        height={24}
-        className="absolute left-[20px] text-[24px]"
+        width={20}
+        height={20}
+        className="absolute left-[20px] text-[20px]"
         onClick={() => router.back()}
       />
-      {/* TournamentSettingButton */}
-      <TournamentSettingButton />
+      <div className="absolute right-[20px]">
+        {isDetailPage && <TournamentSettingButton />}
+      </div>
     </div>
   );
 }

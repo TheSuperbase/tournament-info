@@ -23,39 +23,25 @@ const stateStyles = {
 };
 
 function TournamentItem({ tournament }: Props) {
+  const dDay = tournament.dDay;
+
   let state: "ended" | "progress" | "upcoming" = "upcoming";
-  if (tournament.dDay > 0) {
+  if (dDay > 0) {
     state = "upcoming";
-  } else if (tournament.dDay === 0) {
+  } else if (dDay === 0) {
     state = "progress";
   } else {
-    state = "ended"; // Assuming negative dDay means ended or started? Actually dDay usually means days left.
-    // Based on API response: dDay: -353, state probably means passed.
-    // If dDay < 0, it means the start date has passed.
-    // We need to check end date to see if it is "progress" or "ended".
-    // But we don't have separate logic for progress vs ended purely on dDay in the mock snippet interpretation.
-    // Let's assume negative is ended for now, or we need to parse dates.
-    // Actually let's refine:
-    // if dDay > 0: Upcoming (D-N)
-    // if dDay == 0: Today (D-day)
-    // if dDay < 0: Ended or In Progress?
-    // For now let's treat < 0 as ended for simplicity unless we parse dates.
     state = "ended";
   }
 
-  // Refined logic based on typical d-day usage
-  // The API response has dDay.
-  // We can also use a helper to determine status if needed.
-
   const styles = stateStyles[state];
-  const dDayLabel =
-    state === "upcoming" ? `D-${tournament.dDay}` : styles.label;
+  const dDayLabel = state === "upcoming" ? `D-${dDay}` : styles.label;
 
   return (
     <Link prefetch={true} href={`/${tournament.id}`} className="block">
       <StatusBadge state={state} label={dDayLabel} />
       <div
-        className={`mb-[6px] pl-[8px] border-l-[2px] ${styles.borderColor} h-[22px]`}
+        className={`mb-[6px] pl-[8px] border-l-[2px] ${styles.borderColor} min-h-[22px]`}
       >
         <Typography variant="body1" className="text-[#333] font-bold">
           {tournament.name}

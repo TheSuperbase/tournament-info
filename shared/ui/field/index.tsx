@@ -61,6 +61,7 @@ const inputVariants = cva(
 type Props = Omit<VariantProps<typeof inputVariants>, "isFocused"> &
   Omit<ComponentProps<"input">, "size"> & {
     label?: string;
+    error?: string;
   };
 
 const Input = forwardRef<HTMLInputElement, Props>(function TextField(
@@ -74,6 +75,7 @@ const Input = forwardRef<HTMLInputElement, Props>(function TextField(
     value,
     onChange,
     label,
+    error,
     id,
     ...props
   },
@@ -82,6 +84,7 @@ const Input = forwardRef<HTMLInputElement, Props>(function TextField(
   const [isFocused, setIsFocused] = useState(false);
   const inputId = useId();
   const resolvedId = id || inputId;
+  const hasError = isError || !!error;
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,7 +102,14 @@ const Input = forwardRef<HTMLInputElement, Props>(function TextField(
       )}
       <div
         className={cn(
-          inputVariants({ variant, size, isActive, isError, isFocused, fullWidth }),
+          inputVariants({
+            variant,
+            size,
+            isActive,
+            isError: hasError,
+            isFocused,
+            fullWidth,
+          }),
           className
         )}
       >
@@ -116,6 +126,11 @@ const Input = forwardRef<HTMLInputElement, Props>(function TextField(
           {...props}
         />
       </div>
+      {error && (
+        <Typography variant="caption1" className="text-red-500">
+          {error}
+        </Typography>
+      )}
     </div>
   );
 });

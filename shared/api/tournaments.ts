@@ -1,9 +1,15 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  useInfiniteQuery,
+} from "@tanstack/react-query";
 import { fetcher } from "./client";
 import {
   CreateTournamentRequest,
   Tournament,
   UpdateTournamentRequest,
+  TournamentListResponse,
 } from "./types";
 
 export const tournamentKeys = {
@@ -28,10 +34,27 @@ export function useTournaments() {
 export function useTournamentsByMonth(year: string, month: string) {
   return useQuery({
     queryKey: tournamentKeys.month(year, month),
-    queryFn: () =>
-      fetcher<Tournament[]>(
+    queryFn: async () => {
+      const response = await fetcher<TournamentListResponse>(
         `/api/tournaments/month?year=${year}&month=${month}`
+      );
+      return response.items;
+    },
+    enabled: !!year && !!month,
+  });
+}
+
+// GET /tournaments/month with infinite scroll (cursor-based)
+export function useInfiniteTournamentsByMonth(year: string, month: string) {
+  return useInfiniteQuery({
+    queryKey: [...tournamentKeys.month(year, month), "infinite"],
+    queryFn: ({ pageParam }) =>
+      fetcher<TournamentListResponse>(
+        `/api/tournaments/month?year=${year}&month=${month}${pageParam ? `&cursor=${pageParam}` : ""}`
       ),
+    initialPageParam: null as string | null,
+    getNextPageParam: (lastPage) =>
+      lastPage.hasMore ? lastPage.nextCursor : undefined,
     enabled: !!year && !!month,
   });
 }

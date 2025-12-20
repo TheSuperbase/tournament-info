@@ -1,4 +1,9 @@
-import { Drawer, DrawerContent, DrawerTrigger } from "@/shared/ui/drawer";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/shared/ui/drawer";
 import Icon from "@/shared/ui/icon";
 import { useState } from "react";
 import TournamentSettingMenu from "./tournament-setting-menu";
@@ -17,12 +22,12 @@ function TournamentSettingButton() {
             name="MoreOutlined"
             width={24}
             height={24}
-            className="absolute right-[20px] text-[24px]"
+            className="text-[20px]"
           />
         </button>
       </DrawerTrigger>
       <DrawerContent className="pt-[32px] px-[20px] pb-[48px]">
-        {/* TournamentSettingMenu */}
+        <DrawerTitle className="sr-only">대회 설정</DrawerTitle>
         <TournamentSettingMenu />
       </DrawerContent>
     </Drawer>

@@ -10,13 +10,34 @@ export interface Tournament {
   organizer: string;
   sponsor: string;
   sponsorship: string;
+  platform?: string;
   dDay: number;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
-export type CreateTournamentRequest = Omit<Tournament, "id"> & { id?: never };
+export interface CreateTournamentRequest {
+  name: string;
+  startDate: string;
+  endDate: string;
+  applyStartDate: string;
+  applyEndDate: string;
+  region: string;
+  location: string;
+  participantTeams: number;
+  host: string;
+  organizer: string;
+  sponsor: string;
+  sponsorship: string;
+}
+
 export type UpdateTournamentRequest = Partial<CreateTournamentRequest>;
+
+export interface TournamentListResponse {
+  items: Tournament[];
+  nextCursor: string | null;
+  hasMore: boolean;
+}
 
 export interface LoginRequest {
   id: string;

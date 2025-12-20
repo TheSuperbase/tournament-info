@@ -23,15 +23,13 @@ function TournamentList({ year, month }: Props) {
     <div className="px-[20px] pt-[20px] pb-[80px]">
       {hasData ? (
         <div className="flex flex-col gap-[20px]">
-          {/* TODO: Group by date if needed. For now just flat list */}
           {tournaments.map((tournament) => (
             <div key={tournament.id} className="flex flex-col gap-[10px]">
-              {/* Date header placeholder - logic needed to group by start date */}
               <Typography variant="subHead1" className="text-[#555]">
                 {tournament.tournamentPeriod.split("~")[0].trim()}
               </Typography>
 
-              <TournamentItem key={tournament.id} tournament={tournament} />
+              <TournamentItem tournament={tournament} />
             </div>
           ))}
         </div>
