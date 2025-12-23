@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { suitFont } from "./_font";
 import "@/shared/style/global.css";
 import { QueryProvider } from "@/shared/providers/QueryProvider";
+import GoogleAnalytics from "@/shared/lib/google-analytics";
 
 const metadata: Metadata = {
   title: "배드민턴 대회 캘린더",
@@ -25,6 +26,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <QueryProvider>
+          <GoogleAnalytics />
           {children}
           <div id="portal-root" />
         </QueryProvider>
