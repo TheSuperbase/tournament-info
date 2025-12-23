@@ -32,7 +32,6 @@ function StatusBadge({ state, label }: Props) {
         className={`${styles.badgeText} leading-none`}
       >
         {label}
-        {state === "upcoming" ? `6` : ""}
       </Typography>
     </div>
   );
