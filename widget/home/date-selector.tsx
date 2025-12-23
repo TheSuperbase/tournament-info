@@ -16,6 +16,7 @@ import {
 } from "@/shared/ui/drawer";
 import SolidButton from "@/shared/ui/button/SolidButton";
 import TextButton from "@/shared/ui/button/TextButton";
+import { useAuthStore } from "@/shared/store/useAuthStore";
 
 const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 10 }, (_, i) => `${currentYear - 5 + i}년`);
@@ -53,6 +54,7 @@ function DateSelector({ selectedDate, onDateChange }: Props) {
     month: `${selectedDate.month}월`,
   });
   const [open, setOpen] = useState(false);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   const displayYear = `${selectedDate.year}년`;
   const displayMonth = `${selectedDate.month}월`;
@@ -144,12 +146,14 @@ function DateSelector({ selectedDate, onDateChange }: Props) {
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
-      <TextButton
-        className="text-semantic-text-info-bold"
-        onClick={() => router.push("/add")}
-      >
-        대회 추가
-      </TextButton>
+      {isAuthenticated && (
+        <TextButton
+          className="text-semantic-text-info-bold"
+          onClick={() => router.push("/add")}
+        >
+          대회 추가
+        </TextButton>
+      )}
     </div>
   );
 }

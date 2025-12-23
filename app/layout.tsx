@@ -27,7 +27,9 @@ export default function RootLayout({
       >
         <QueryProvider>
           <GoogleAnalytics />
-          {children}
+          <div className="mx-auto w-full max-w-[430px] min-h-screen bg-white">
+            {children}
+          </div>
           <div id="portal-root" />
         </QueryProvider>
       </body>
