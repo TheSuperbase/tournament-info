@@ -101,7 +101,7 @@ function DateSelector({ selectedDate, onDateChange }: Props) {
               </Typography>
             </DrawerTitle>
           </DrawerHeader>
-          <div className="date-picker-wrapper">
+          <div className="date-picker-wrapper" data-vaul-no-drag>
             <Picker
               value={pickerValue}
               onChange={setPickerValue}

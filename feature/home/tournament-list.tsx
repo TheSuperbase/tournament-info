@@ -5,6 +5,13 @@ import { useInfiniteTournamentsByMonth } from "@/shared/api/tournaments";
 import Typography from "@/shared/ui/typography";
 import TournamentItem from "@/widget/home/tournament-item";
 import Image from "next/image";
+import { parse, format } from "date-fns";
+import { ko } from "date-fns/locale";
+
+function formatDateWithDay(dateStr: string): string {
+  const parsed = parse(dateStr, "yyyy.MM.dd", new Date());
+  return format(parsed, "d일 (E)", { locale: ko });
+}
 
 type Props = {
   year: string;
@@ -60,15 +67,24 @@ function TournamentList({ year, month }: Props) {
     <div className="px-[20px] pt-[20px] pb-[80px]">
       {hasData ? (
         <div className="flex flex-col gap-[20px]">
-          {tournaments.map((tournament) => (
-            <div key={tournament.id} className="flex flex-col gap-[10px]">
-              <Typography variant="subHead1" className="text-[#555]">
-                {tournament.tournamentPeriod.split("~")[0].trim()}
-              </Typography>
+          {tournaments.map((tournament, index) => {
+            const currentDate = tournament.tournamentPeriod.split("~")[0].trim();
+            const prevDate = index > 0
+              ? tournaments[index - 1].tournamentPeriod.split("~")[0].trim()
+              : null;
+            const showDate = currentDate !== prevDate;
 
-              <TournamentItem tournament={tournament} />
-            </div>
-          ))}
+            return (
+              <div key={tournament.id} className="flex flex-col gap-[10px]">
+                {showDate && (
+                  <Typography variant="subHead1" className="text-[#555]">
+                    {formatDateWithDay(currentDate)}
+                  </Typography>
+                )}
+                <TournamentItem tournament={tournament} />
+              </div>
+            );
+          })}
           <div ref={loadMoreRef} className="h-[1px]" />
           {isFetchingNextPage && (
             <div className="text-center py-4">Loading...</div>

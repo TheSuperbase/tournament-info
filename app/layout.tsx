@@ -25,7 +25,7 @@ export default function RootLayout({
         <meta name="google-adsense-account" content="ca-pub-4113419530280094" />
       </head>
       <body
-        className={`${suitFont.variable} antialiased`}
+        className={`${suitFont.variable} ${suitFont.className} antialiased`}
         suppressHydrationWarning
       >
         <QueryProvider>
