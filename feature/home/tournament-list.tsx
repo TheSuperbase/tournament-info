@@ -1,6 +1,7 @@
 "use client";
 
-import { useTournamentsByMonth } from "@/shared/api/tournaments";
+import { useEffect, useRef, useCallback } from "react";
+import { useInfiniteTournamentsByMonth } from "@/shared/api/tournaments";
 import Typography from "@/shared/ui/typography";
 import TournamentItem from "@/widget/home/tournament-item";
 import Image from "next/image";
@@ -11,9 +12,45 @@ type Props = {
 };
 
 function TournamentList({ year, month }: Props) {
-  const { data: tournaments, isLoading } = useTournamentsByMonth(year, month);
+  const {
+    data,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteTournamentsByMonth(year, month);
 
-  const hasData = tournaments && tournaments.length > 0;
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
+  const handleObserver = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      const [entry] = entries;
+      if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
+    },
+    [fetchNextPage, hasNextPage, isFetchingNextPage]
+  );
+
+  useEffect(() => {
+    observerRef.current = new IntersectionObserver(handleObserver, {
+      threshold: 0.1,
+    });
+
+    if (loadMoreRef.current) {
+      observerRef.current.observe(loadMoreRef.current);
+    }
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
+  }, [handleObserver]);
+
+  const tournaments = data?.pages.flatMap((page) => page.items) ?? [];
+  const hasData = tournaments.length > 0;
 
   if (isLoading) {
     return <div className="px-[20px] pt-[20px] pb-[80px]">Loading...</div>;
@@ -32,6 +69,10 @@ function TournamentList({ year, month }: Props) {
               <TournamentItem tournament={tournament} />
             </div>
           ))}
+          <div ref={loadMoreRef} className="h-[1px]" />
+          {isFetchingNextPage && (
+            <div className="text-center py-4">Loading...</div>
+          )}
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center gap-[24px] pt-[100px]">
