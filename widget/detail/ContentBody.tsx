@@ -63,7 +63,7 @@ function TitleItem({ title, description }: TitleItemProps) {
     <div className="flex flex-row items-center gap-[4px]">
       <Typography
         variant="subHead2"
-        className="text-semantic-text-secondary w-[76px]"
+        className="text-semantic-text-secondary w-[76px] min-w-[76px]"
       >
         {title}
       </Typography>

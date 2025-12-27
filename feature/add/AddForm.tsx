@@ -11,7 +11,6 @@ import {
 import { useAlert } from "@/shared/hooks/useAlert";
 import { SolidButton } from "@/shared/ui/button";
 import Input from "@/shared/ui/field";
-import AddressSearch from "@/shared/ui/address-search";
 import Typography from "@/shared/ui/typography";
 
 function AddForm() {
@@ -53,10 +52,6 @@ function AddForm() {
     setTouched((prev) => ({ ...prev, [field]: true }));
     const validationErrors = validateTournamentForm(formData);
     setErrors(validationErrors);
-  };
-
-  const handleAddressChange = (address: string) => {
-    setFormData((prev) => ({ ...prev, region: address }));
   };
 
   const handleSubmit = () => {
@@ -181,12 +176,12 @@ function AddForm() {
           </Typography>
         )}
       </div>
-      <AddressSearch
+      <Input
         label="지역"
-        placeholder="지역을 검색해주세요"
+        placeholder="지역을 입력해주세요"
         fullWidth
         value={formData.region}
-        onChange={handleAddressChange}
+        onChange={handleChange("region")}
       />
       <Input
         label="대회 위치"

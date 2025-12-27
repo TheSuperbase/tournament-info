@@ -101,6 +101,8 @@ function TournamentList({ year, month }: Props) {
     return groups;
   }, [tournaments]);
 
+  console.log("groupedTournaments", groupedTournaments);
+
   if (isLoading) {
     return <div className="px-[20px] pt-[20px] pb-[80px]">Loading...</div>;
   }

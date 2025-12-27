@@ -12,7 +12,6 @@ import {
 import { useAlert } from "@/shared/hooks/useAlert";
 import { SolidButton } from "@/shared/ui/button";
 import Input from "@/shared/ui/field";
-import AddressSearch from "@/shared/ui/address-search";
 import Typography from "@/shared/ui/typography";
 
 function convertToInputDateFormat(dateStr: string): string {
@@ -34,18 +33,22 @@ function parsePeriodDates(period: string | undefined): [string, string] {
   return [startDate, endDate];
 }
 
-function parseFormDataFromTournament(tournament: {
-  name?: string;
-  tournamentPeriod?: string;
-  applyPeriod?: string;
-  region?: string;
-  location?: string;
-  participantTeams?: string;
-  host?: string;
-  organizer?: string;
-  sponsor?: string;
-  sponsorship?: string;
-} | undefined): TournamentFormData {
+function parseFormDataFromTournament(
+  tournament:
+    | {
+        name?: string;
+        tournamentPeriod?: string;
+        applyPeriod?: string;
+        region?: string;
+        location?: string;
+        participantTeams?: string;
+        host?: string;
+        organizer?: string;
+        sponsor?: string;
+        sponsorship?: string;
+      }
+    | undefined
+): TournamentFormData {
   if (!tournament) {
     return {
       name: "",
@@ -63,7 +66,9 @@ function parseFormDataFromTournament(tournament: {
     };
   }
 
-  const [tournamentStart, tournamentEnd] = parsePeriodDates(tournament.tournamentPeriod);
+  const [tournamentStart, tournamentEnd] = parsePeriodDates(
+    tournament.tournamentPeriod
+  );
   const [applyStart, applyEnd] = parsePeriodDates(tournament.applyPeriod);
 
   return {
@@ -97,8 +102,9 @@ function EditForm() {
     [tournament]
   );
 
-  const [localFormData, setLocalFormData] =
-    useState<TournamentFormData | null>(null);
+  const [localFormData, setLocalFormData] = useState<TournamentFormData | null>(
+    null
+  );
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
 
@@ -120,10 +126,6 @@ function EditForm() {
     setTouched((prev) => ({ ...prev, [field]: true }));
     const validationErrors = validateTournamentForm(formData);
     setErrors(validationErrors);
-  };
-
-  const handleAddressChange = (address: string) => {
-    setLocalFormData({ ...formData, region: address });
   };
 
   const handleSubmit = () => {
@@ -185,7 +187,9 @@ function EditForm() {
   }
 
   if (!id) {
-    return <div className="px-[20px] py-[20px]">대회 정보를 찾을 수 없습니다.</div>;
+    return (
+      <div className="px-[20px] py-[20px]">대회 정보를 찾을 수 없습니다.</div>
+    );
   }
 
   return (
@@ -255,12 +259,12 @@ function EditForm() {
           </Typography>
         )}
       </div>
-      <AddressSearch
+      <Input
         label="지역"
-        placeholder="지역을 검색해주세요"
+        placeholder="지역을 입력해주세요"
         fullWidth
         value={formData.region}
-        onChange={handleAddressChange}
+        onChange={handleChange("region")}
       />
       <Input
         label="대회 위치"
