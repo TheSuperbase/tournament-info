@@ -7,6 +7,7 @@ type Props = {
 };
 
 function TournamentItem({ tournament }: Props) {
+  const hasPlatform = !!tournament.platform && tournament.platform !== "미정";
   return (
     <Link prefetch={true} href={`/${tournament.id}`} className="block">
       <div className={`mb-[6px] min-h-[22px]`}>
@@ -14,9 +15,15 @@ function TournamentItem({ tournament }: Props) {
           {tournament.name}
         </Typography>
       </div>
-      <Typography variant="subHead2" className="text-[#777792] font-medium">
-        {tournament.location}ㆍ{tournament.organizer}
-      </Typography>
+      {hasPlatform ? (
+        <Typography variant="subHead2" className="text-[#777792] font-medium">
+          {tournament.location}ㆍ{tournament.platform}
+        </Typography>
+      ) : (
+        <Typography variant="subHead2" className="text-[#777792] font-medium">
+          {tournament.location}
+        </Typography>
+      )}
     </Link>
   );
 }

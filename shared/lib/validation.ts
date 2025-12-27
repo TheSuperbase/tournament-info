@@ -18,6 +18,7 @@ export type TournamentFormData = {
   organizer: string;
   sponsor: string;
   sponsorship: string;
+  platform?: string;
 };
 
 export function validateTournamentForm(

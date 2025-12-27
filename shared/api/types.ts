@@ -29,6 +29,7 @@ export interface CreateTournamentRequest {
   organizer: string;
   sponsor: string;
   sponsorship: string;
+  platform?: string;
 }
 
 export type UpdateTournamentRequest = Partial<CreateTournamentRequest>;

@@ -31,6 +31,7 @@ function AddForm() {
     organizer: "",
     sponsor: "",
     sponsorship: "",
+    platform: "",
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -85,6 +86,7 @@ function AddForm() {
         organizer: formData.organizer,
         sponsor: formData.sponsor,
         sponsorship: formData.sponsorship,
+        platform: formData.platform,
       },
       {
         onSuccess: () => {
@@ -224,6 +226,13 @@ function AddForm() {
         fullWidth
         value={formData.sponsorship}
         onChange={handleChange("sponsorship")}
+      />
+      <Input
+        label="플랫폼"
+        placeholder="플랫폼"
+        fullWidth
+        value={formData.platform}
+        onChange={handleChange("platform")}
       />
 
       <div className="flex items-center justify-center pt-[12px]">

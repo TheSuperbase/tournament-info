@@ -45,7 +45,9 @@ function parseFormDataFromTournament(
         host?: string;
         organizer?: string;
         sponsor?: string;
+
         sponsorship?: string;
+        platform?: string;
       }
     | undefined
 ): TournamentFormData {
@@ -62,7 +64,9 @@ function parseFormDataFromTournament(
       host: "",
       organizer: "",
       sponsor: "",
+
       sponsorship: "",
+      platform: "",
     };
   }
 
@@ -84,6 +88,7 @@ function parseFormDataFromTournament(
     organizer: tournament.organizer || "",
     sponsor: tournament.sponsor || "",
     sponsorship: tournament.sponsorship || "",
+    platform: tournament.platform || "",
   };
 }
 
@@ -158,6 +163,7 @@ function EditForm() {
         organizer: formData.organizer,
         sponsor: formData.sponsor,
         sponsorship: formData.sponsorship,
+        platform: formData.platform,
       },
       {
         onSuccess: () => {
@@ -307,6 +313,13 @@ function EditForm() {
         fullWidth
         value={formData.sponsorship}
         onChange={handleChange("sponsorship")}
+      />
+      <Input
+        label="플랫폼"
+        placeholder="플랫폼"
+        fullWidth
+        value={formData.platform}
+        onChange={handleChange("platform")}
       />
 
       <div className="flex items-center justify-center pt-[12px]">
