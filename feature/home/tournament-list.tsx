@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useMemo } from "react";
 import { useInfiniteTournamentsByMonth } from "@/shared/api/tournaments";
 import Typography from "@/shared/ui/typography";
 import TournamentItem from "@/widget/home/tournament-item";
 import Image from "next/image";
 import { parse, format } from "date-fns";
 import { ko } from "date-fns/locale";
+import StatusBadge from "@/shared/ui/status-badge";
 
 function formatDateWithDay(dateStr: string): string {
   const parsed = parse(dateStr, "yyyy.MM.dd", new Date());
@@ -19,13 +20,8 @@ type Props = {
 };
 
 function TournamentList({ year, month }: Props) {
-  const {
-    data,
-    isLoading,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfiniteTournamentsByMonth(year, month);
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteTournamentsByMonth(year, month);
 
   const observerRef = useRef<IntersectionObserver | null>(null);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
@@ -56,40 +52,98 @@ function TournamentList({ year, month }: Props) {
     };
   }, [handleObserver]);
 
-  const tournaments = data?.pages.flatMap((page) => page.items) ?? [];
+  const tournaments = useMemo(
+    () => data?.pages.flatMap((page) => page.items) ?? [],
+    [data]
+  );
   const hasData = tournaments.length > 0;
+
+  const groupedTournaments = useMemo(() => {
+    const groups: {
+      date: string;
+      items: typeof tournaments;
+      state: "ended" | "progress" | "upcoming";
+      dDayLabel: string;
+    }[] = [];
+
+    tournaments.forEach((tournament) => {
+      const dateStr = tournament.tournamentPeriod.split("~")[0].trim();
+      const formattedDate = formatDateWithDay(dateStr);
+
+      const lastGroup = groups[groups.length - 1];
+      if (lastGroup && lastGroup.date === formattedDate) {
+        lastGroup.items.push(tournament);
+      } else {
+        const dDay = tournament.dDay;
+        let state: "ended" | "progress" | "upcoming" = "upcoming";
+        if (dDay > 0) {
+          state = "upcoming";
+        } else if (dDay === 0) {
+          state = "progress";
+        } else {
+          state = "ended";
+        }
+
+        let dDayLabel = "";
+        if (state === "ended") dDayLabel = "경기종료";
+        else if (state === "progress") dDayLabel = "D-day";
+        else dDayLabel = `D-${dDay}`;
+
+        groups.push({
+          date: formattedDate,
+          items: [tournament],
+          state,
+          dDayLabel,
+        });
+      }
+    });
+
+    return groups;
+  }, [tournaments]);
 
   if (isLoading) {
     return <div className="px-[20px] pt-[20px] pb-[80px]">Loading...</div>;
   }
 
   return (
-    <div className="px-[20px] pt-[20px] pb-[80px]">
+    <div className="px-[20px] pt-[20px] pb-[80px] flex flex-col gap-[28px]">
       {hasData ? (
-        <div className="flex flex-col gap-[20px]">
-          {tournaments.map((tournament, index) => {
-            const currentDate = tournament.tournamentPeriod.split("~")[0].trim();
-            const prevDate = index > 0
-              ? tournaments[index - 1].tournamentPeriod.split("~")[0].trim()
-              : null;
-            const showDate = currentDate !== prevDate;
+        <>
+          {groupedTournaments.map((group) => {
+            const stateBorderColors = {
+              ended: "border-[#787878]",
+              progress: "border-[#30B450]",
+              upcoming: "border-[#4A56FF]",
+            };
+            const borderColor = stateBorderColors[group.state];
 
             return (
-              <div key={tournament.id} className="flex flex-col gap-[10px]">
-                {showDate && (
+              <div
+                key={group.date}
+                className={`flex flex-col gap-[20px] border-l-[2px] pl-[20px] ${borderColor}`}
+              >
+                <div className="flex flex-row items-center justify-between">
                   <Typography variant="subHead1" className="text-[#555]">
-                    {formatDateWithDay(currentDate)}
+                    {group.date}
                   </Typography>
-                )}
-                <TournamentItem tournament={tournament} />
+                  <StatusBadge state={group.state} label={group.dDayLabel} />
+                </div>
+                <div className="flex flex-col gap-[20px]">
+                  {group.items.map((tournament) => (
+                    <TournamentItem
+                      key={tournament.id}
+                      tournament={tournament}
+                    />
+                  ))}
+                </div>
               </div>
             );
           })}
-          <div ref={loadMoreRef} className="h-[1px]" />
+          <div ref={loadMoreRef} className="h-px" />
           {isFetchingNextPage && (
             <div className="text-center py-4">Loading...</div>
           )}
-        </div>
+        </>
       ) : (
         <div className="flex flex-col items-center justify-center gap-[24px] pt-[100px]">
           <Image
