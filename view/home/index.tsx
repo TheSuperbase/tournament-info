@@ -63,11 +63,13 @@ function HomePage() {
 
   return (
     <div>
-      <Title />
-      <DateSelector
-        selectedDate={selectedDate}
-        onDateChange={handleDateChange}
-      />
+      <div className="sticky top-0 z-10 bg-white">
+        <Title />
+        <DateSelector
+          selectedDate={selectedDate}
+          onDateChange={handleDateChange}
+        />
+      </div>
       <TournamentList year={selectedDate.year} month={selectedDate.month} />
     </div>
   );
