@@ -4,11 +4,14 @@ import { useEffect, useRef, useCallback, useMemo } from "react";
 import { useInfiniteTournamentsByMonth } from "@/shared/api/tournaments";
 import { useListStateStore } from "@/shared/store/useListStateStore";
 import Typography from "@/shared/ui/typography";
+import OutlineButton from "@/shared/ui/button/OutlineButton";
+import { BUTTON_SIZE, BUTTON_SHAPE } from "@/shared/ui/button/variants";
 import TournamentItem from "@/widget/home/tournament-item";
 import Image from "next/image";
 import { parse, format } from "date-fns";
 import { ko } from "date-fns/locale";
 import StatusBadge from "@/shared/ui/status-badge";
+import Icon from "@/shared/ui/icon";
 
 function formatDateWithDay(dateStr: string): string {
   const parsed = parse(dateStr, "yyyy.MM.dd", new Date());
@@ -20,17 +23,14 @@ type Props = {
   month: string;
 };
 
-const OVERSCROLL_DURATION = 1000; // 오버스크롤 지속 시간 (1초)
-
 function TournamentList({ year, month }: Props) {
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteTournamentsByMonth(year, month);
+  const goToPrevMonth = useListStateStore((state) => state.goToPrevMonth);
   const goToNextMonth = useListStateStore((state) => state.goToNextMonth);
 
   const observerRef = useRef<IntersectionObserver | null>(null);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
-  const overscrollStartTimeRef = useRef<number | null>(null);
-  const checkIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleObserver = useCallback(
     (entries: IntersectionObserverEntry[]) => {
@@ -64,110 +64,26 @@ function TournamentList({ year, month }: Props) {
   );
   const hasData = tournaments.length > 0;
 
-  // 마지막 데이터에서 계속 스크롤 시 다음 달로 이동 (데이터가 있을 때만)
-  useEffect(() => {
-    // 데이터가 없으면 오버스크롤 감지 비활성화
-    if (!hasData) return;
+  // 이전/다음 달 정보 계산
+  const prevMonthInfo = useMemo(() => {
+    const currentMonth = parseInt(month, 10);
+    const currentYear = parseInt(year, 10);
+    if (currentMonth === 1) {
+      return { year: currentYear - 1, month: 12 };
+    }
+    return { year: currentYear, month: currentMonth - 1 };
+  }, [year, month]);
 
-    const getScrollInfo = () => {
-      const { scrollTop, scrollHeight, clientHeight } =
-        document.documentElement;
-      const noScroll = scrollHeight <= clientHeight;
-      const atBottom = scrollTop + clientHeight >= scrollHeight - 5;
-      const maxScrollTop = scrollHeight - clientHeight;
-      return { scrollTop, noScroll, atBottom, maxScrollTop };
-    };
+  const nextMonthInfo = useMemo(() => {
+    const currentMonth = parseInt(month, 10);
+    const currentYear = parseInt(year, 10);
+    if (currentMonth === 12) {
+      return { year: currentYear + 1, month: 1 };
+    }
+    return { year: currentYear, month: currentMonth + 1 };
+  }, [year, month]);
 
-    const isOverscrolling = () => {
-      const { noScroll, atBottom, scrollTop, maxScrollTop } = getScrollInfo();
-      return noScroll || (atBottom && scrollTop >= maxScrollTop - 1);
-    };
-
-    const resetOverscroll = () => {
-      overscrollStartTimeRef.current = null;
-      if (checkIntervalRef.current) {
-        clearInterval(checkIntervalRef.current);
-        checkIntervalRef.current = null;
-      }
-    };
-
-    const startOverscrollTimer = () => {
-      if (overscrollStartTimeRef.current !== null) return;
-
-      overscrollStartTimeRef.current = Date.now();
-
-      checkIntervalRef.current = setInterval(() => {
-        if (!isOverscrolling()) {
-          resetOverscroll();
-          return;
-        }
-
-        const elapsed = Date.now() - (overscrollStartTimeRef.current ?? 0);
-        if (elapsed >= OVERSCROLL_DURATION) {
-          resetOverscroll();
-          goToNextMonth();
-        }
-      }, 100);
-    };
-
-    const handleWheel = (e: WheelEvent) => {
-      if (hasNextPage || isFetchingNextPage || isLoading) {
-        resetOverscroll();
-        return;
-      }
-
-      if (e.deltaY <= 0) {
-        resetOverscroll();
-        return;
-      }
-
-      if (isOverscrolling()) {
-        startOverscrollTimer();
-      } else {
-        resetOverscroll();
-      }
-    };
-
-    let isTouching = false;
-    let touchCheckInterval: NodeJS.Timeout | null = null;
-
-    const handleTouchStart = () => {
-      if (hasNextPage || isFetchingNextPage || isLoading) return;
-
-      isTouching = true;
-
-      touchCheckInterval = setInterval(() => {
-        if (!isTouching) {
-          if (touchCheckInterval) clearInterval(touchCheckInterval);
-          return;
-        }
-        if (isOverscrolling()) {
-          startOverscrollTimer();
-        }
-      }, 100);
-    };
-
-    const handleTouchEnd = () => {
-      isTouching = false;
-      if (touchCheckInterval) {
-        clearInterval(touchCheckInterval);
-        touchCheckInterval = null;
-      }
-      resetOverscroll();
-    };
-
-    window.addEventListener("wheel", handleWheel, { passive: true });
-    window.addEventListener("touchstart", handleTouchStart, { passive: true });
-    window.addEventListener("touchend", handleTouchEnd, { passive: true });
-
-    return () => {
-      window.removeEventListener("wheel", handleWheel);
-      window.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("touchend", handleTouchEnd);
-      resetOverscroll();
-      if (touchCheckInterval) clearInterval(touchCheckInterval);
-    };
-  }, [hasData, hasNextPage, isFetchingNextPage, isLoading, goToNextMonth]);
+  const showMonthNavigation = !hasNextPage && !isFetchingNextPage;
 
   const groupedTournaments = useMemo(() => {
     const groups: {
@@ -254,6 +170,42 @@ function TournamentList({ year, month }: Props) {
           {isFetchingNextPage && (
             <div className="text-center py-4">Loading...</div>
           )}
+          {showMonthNavigation && (
+            <div className="flex flex-row items-center justify-center gap-3 pt-4">
+              <OutlineButton
+                size={BUTTON_SIZE.MEDIUM}
+                shape={BUTTON_SHAPE.CIRCLE}
+                onClick={goToPrevMonth}
+                className="whitespace-nowrap"
+                leftIcon={
+                  <Icon
+                    name="ChevronDown"
+                    width={20}
+                    height={20}
+                    className="mb-[2px] rotate-90 text-semantic-text-info-bold"
+                  />
+                }
+              >
+                {prevMonthInfo.month}월
+              </OutlineButton>
+              <OutlineButton
+                size={BUTTON_SIZE.MEDIUM}
+                shape={BUTTON_SHAPE.CIRCLE}
+                onClick={goToNextMonth}
+                className="whitespace-nowrap"
+                rightIcon={
+                  <Icon
+                    name="ChevronDown"
+                    width={20}
+                    height={20}
+                    className="mb-[2px] rotate-260 text-semantic-text-info-bold"
+                  />
+                }
+              >
+                {nextMonthInfo.month}월
+              </OutlineButton>
+            </div>
+          )}
         </>
       ) : (
         <div className="flex flex-col items-center justify-center gap-[24px] pt-[100px]">
@@ -271,6 +223,42 @@ function TournamentList({ year, month }: Props) {
               곧 새로운 대회들이 생겨날 예정이에요.
             </Typography>
           </div>
+          {showMonthNavigation && (
+            <div className="flex flex-row items-center justify-center gap-3 mt-8">
+              <OutlineButton
+                size={BUTTON_SIZE.MEDIUM}
+                shape={BUTTON_SHAPE.CIRCLE}
+                onClick={goToPrevMonth}
+                className="whitespace-nowrap"
+                leftIcon={
+                  <Icon
+                    name="ChevronDown"
+                    width={20}
+                    height={20}
+                    className="mb-[2px] rotate-90 text-semantic-text-info-bold"
+                  />
+                }
+              >
+                {prevMonthInfo.month}월
+              </OutlineButton>
+              <OutlineButton
+                size={BUTTON_SIZE.MEDIUM}
+                shape={BUTTON_SHAPE.CIRCLE}
+                onClick={goToNextMonth}
+                className="whitespace-nowrap"
+                rightIcon={
+                  <Icon
+                    name="ChevronDown"
+                    width={20}
+                    height={20}
+                    className="mb-[2px] rotate-270 text-semantic-text-info-bold"
+                  />
+                }
+              >
+                {nextMonthInfo.month}월
+              </OutlineButton>
+            </div>
+          )}
         </div>
       )}
     </div>

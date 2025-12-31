@@ -10,6 +10,7 @@ type ListState = {
 type ListStateActions = {
   setDate: (year: string, month: string) => void;
   setScrollPosition: (position: number) => void;
+  goToPrevMonth: () => void;
   goToNextMonth: () => void;
   reset: () => void;
 };
@@ -33,6 +34,23 @@ export const useListStateStore = create<ListStateStore>((set) => ({
 
   setDate: (year, month) => set({ year, month }),
   setScrollPosition: (position) => set({ scrollPosition: position }),
+  goToPrevMonth: () =>
+    set((state) => {
+      const currentMonth = parseInt(state.month, 10);
+      const currentYear = parseInt(state.year, 10);
+
+      if (currentMonth === 1) {
+        return {
+          year: String(currentYear - 1),
+          month: "12",
+          scrollPosition: 0,
+        };
+      }
+      return {
+        month: String(currentMonth - 1),
+        scrollPosition: 0,
+      };
+    }),
   goToNextMonth: () =>
     set((state) => {
       const currentMonth = parseInt(state.month, 10);

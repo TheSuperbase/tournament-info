@@ -20,9 +20,9 @@ const buttonVariants = cva(
           "border border-neutral-500 text-text-primary active:bg-neutral-300",
       },
       size: {
-        [BUTTON_SIZE.LARGE]: "w-[6.875rem] h-[3.375rem] px-[0.8rem]",
-        [BUTTON_SIZE.MEDIUM]: "w-[5rem] h-[2.5rem] px-[0.8rem]",
-        [BUTTON_SIZE.SMALL]: "w-[3.125rem] h-[1.625rem] px-[0.8rem]",
+        [BUTTON_SIZE.LARGE]: "w-fit h-[3.375rem] px-[0.8rem]",
+        [BUTTON_SIZE.MEDIUM]: "w-fit h-[2.5rem] px-[0.8rem]",
+        [BUTTON_SIZE.SMALL]: "w-fit h-[1.625rem] px-[0.8rem]",
       },
       shape: {
         [BUTTON_SHAPE.RECTANGLE]: "rounded-[0.5rem]",
