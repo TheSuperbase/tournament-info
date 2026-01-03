@@ -11,7 +11,7 @@ type Props = {
 function MonthNavigation({ onPrevClick, onNextClick, className = "" }: Props) {
   return (
     <div
-      className={`flex flex-row items-center justify-center gap-3 ${className}`}
+      className={`flex flex-row items-center justify-between px-[40px] ${className}`}
     >
       <button
         onClick={onPrevClick}
