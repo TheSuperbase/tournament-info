@@ -133,7 +133,7 @@ function TournamentList({ year, month }: Props) {
   }
 
   return (
-    <div className="px-[20px] pt-[20px] pb-[80px] flex flex-col gap-[28px]">
+    <div className="px-[20px] pt-[20px] pb-[40px] flex flex-col gap-[28px]">
       {hasData ? (
         <>
           {groupedTournaments.map((group) => {
@@ -166,7 +166,7 @@ function TournamentList({ year, month }: Props) {
               </div>
             );
           })}
-          <div ref={loadMoreRef} className="h-px" />
+          <div ref={loadMoreRef} className="h-px -mt-[28px]" />
           {isFetchingNextPage && (
             <div className="text-center py-4">Loading...</div>
           )}
@@ -224,7 +224,7 @@ function TournamentList({ year, month }: Props) {
             </Typography>
           </div>
           {showMonthNavigation && (
-            <div className="flex flex-row items-center justify-center gap-3 mt-8">
+            <div className="flex flex-row items-center justify-center gap-3">
               <OutlineButton
                 size={BUTTON_SIZE.MEDIUM}
                 shape={BUTTON_SHAPE.CIRCLE}
