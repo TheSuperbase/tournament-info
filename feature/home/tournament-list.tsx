@@ -182,6 +182,7 @@ function TournamentList({ year, month }: Props) {
             <MonthNavigation
               onPrevClick={goToPrevMonth}
               onNextClick={goToNextMonth}
+              className="w-full px-[40px]"
             />
           )}
         </div>
