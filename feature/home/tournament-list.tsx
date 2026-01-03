@@ -4,14 +4,12 @@ import { useEffect, useRef, useCallback, useMemo } from "react";
 import { useInfiniteTournamentsByMonth } from "@/shared/api/tournaments";
 import { useListStateStore } from "@/shared/store/useListStateStore";
 import Typography from "@/shared/ui/typography";
-import OutlineButton from "@/shared/ui/button/OutlineButton";
-import { BUTTON_SIZE, BUTTON_SHAPE } from "@/shared/ui/button/variants";
+import MonthNavigation from "@/shared/ui/month-navigation";
 import TournamentItem from "@/widget/home/tournament-item";
 import Image from "next/image";
 import { parse, format } from "date-fns";
 import { ko } from "date-fns/locale";
 import StatusBadge from "@/shared/ui/status-badge";
-import Icon from "@/shared/ui/icon";
 
 function formatDateWithDay(dateStr: string): string {
   const parsed = parse(dateStr, "yyyy.MM.dd", new Date());
@@ -31,6 +29,11 @@ function TournamentList({ year, month }: Props) {
 
   const observerRef = useRef<IntersectionObserver | null>(null);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
+  // month 변경 시 스크롤 최상단으로 이동
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [year, month]);
 
   const handleObserver = useCallback(
     (entries: IntersectionObserverEntry[]) => {
@@ -63,25 +66,6 @@ function TournamentList({ year, month }: Props) {
     [data]
   );
   const hasData = tournaments.length > 0;
-
-  // 이전/다음 달 정보 계산
-  const prevMonthInfo = useMemo(() => {
-    const currentMonth = parseInt(month, 10);
-    const currentYear = parseInt(year, 10);
-    if (currentMonth === 1) {
-      return { year: currentYear - 1, month: 12 };
-    }
-    return { year: currentYear, month: currentMonth - 1 };
-  }, [year, month]);
-
-  const nextMonthInfo = useMemo(() => {
-    const currentMonth = parseInt(month, 10);
-    const currentYear = parseInt(year, 10);
-    if (currentMonth === 12) {
-      return { year: currentYear + 1, month: 1 };
-    }
-    return { year: currentYear, month: currentMonth + 1 };
-  }, [year, month]);
 
   const showMonthNavigation = !hasNextPage && !isFetchingNextPage;
 
@@ -171,40 +155,11 @@ function TournamentList({ year, month }: Props) {
             <div className="text-center py-4">Loading...</div>
           )}
           {showMonthNavigation && (
-            <div className="flex flex-row items-center justify-center gap-3 pt-4">
-              <OutlineButton
-                size={BUTTON_SIZE.MEDIUM}
-                shape={BUTTON_SHAPE.CIRCLE}
-                onClick={goToPrevMonth}
-                className="whitespace-nowrap"
-                leftIcon={
-                  <Icon
-                    name="ChevronDown"
-                    width={20}
-                    height={20}
-                    className="mb-[2px] rotate-90 text-semantic-text-info-bold"
-                  />
-                }
-              >
-                {prevMonthInfo.month}월
-              </OutlineButton>
-              <OutlineButton
-                size={BUTTON_SIZE.MEDIUM}
-                shape={BUTTON_SHAPE.CIRCLE}
-                onClick={goToNextMonth}
-                className="whitespace-nowrap"
-                rightIcon={
-                  <Icon
-                    name="ChevronDown"
-                    width={20}
-                    height={20}
-                    className="mb-[2px] rotate-260 text-semantic-text-info-bold"
-                  />
-                }
-              >
-                {nextMonthInfo.month}월
-              </OutlineButton>
-            </div>
+            <MonthNavigation
+              onPrevClick={goToPrevMonth}
+              onNextClick={goToNextMonth}
+              className="pt-4"
+            />
           )}
         </>
       ) : (
@@ -224,40 +179,10 @@ function TournamentList({ year, month }: Props) {
             </Typography>
           </div>
           {showMonthNavigation && (
-            <div className="flex flex-row items-center justify-center gap-3">
-              <OutlineButton
-                size={BUTTON_SIZE.MEDIUM}
-                shape={BUTTON_SHAPE.CIRCLE}
-                onClick={goToPrevMonth}
-                className="whitespace-nowrap"
-                leftIcon={
-                  <Icon
-                    name="ChevronDown"
-                    width={20}
-                    height={20}
-                    className="mb-[2px] rotate-90 text-semantic-text-info-bold"
-                  />
-                }
-              >
-                {prevMonthInfo.month}월
-              </OutlineButton>
-              <OutlineButton
-                size={BUTTON_SIZE.MEDIUM}
-                shape={BUTTON_SHAPE.CIRCLE}
-                onClick={goToNextMonth}
-                className="whitespace-nowrap"
-                rightIcon={
-                  <Icon
-                    name="ChevronDown"
-                    width={20}
-                    height={20}
-                    className="mb-[2px] rotate-270 text-semantic-text-info-bold"
-                  />
-                }
-              >
-                {nextMonthInfo.month}월
-              </OutlineButton>
-            </div>
+            <MonthNavigation
+              onPrevClick={goToPrevMonth}
+              onNextClick={goToNextMonth}
+            />
           )}
         </div>
       )}
